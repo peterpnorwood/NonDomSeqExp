@@ -4,7 +4,7 @@
 ## Purpose: run simulations for the anova/mab scenario ------------- ##
 ## ----------------------------------------------------------------- ##
 
-#setwd("~/Research/Non_Dominated/anova_mab")
+setwd("-------")
 source("general_functions.R")
 source("simple.R")
 source("det_simple.R")
@@ -235,8 +235,8 @@ for(i in 1:(r)){
 }
 
 ## save the information
-save(trials,file="5_25_trials.RData")
-save(rand_probs,file="5_25_rand_probs.RData")
-save(param_ests,file="5_25_param_ests.RData")
-save(std_errors,file="5_25_std_errors.RData")
+save(trials,file="--------.RData")
+save(rand_probs,file="-----------.RData")
+save(param_ests,file="-----------.RData")
+save(std_errors,file="-----------.RData")
 

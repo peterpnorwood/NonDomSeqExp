@@ -5,7 +5,7 @@
 ## simple randomization -------------------------------------------- ##
 ## ----------------------------------------------------------------- ##
 
-#setwd("~/Research/Non_Dominated/anova_mab")
+setwd("-------")
 source("general_functions.R")
 
 

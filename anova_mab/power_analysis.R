@@ -4,8 +4,9 @@
 ## Purpose: analyze power from the trials -------------------------- ##
 ## ----------------------------------------------------------------- ##
 
-#setwd("~/Research/Non_Dominated/anova_mab")
-load("5_25_trials.RData")
+setwd("-------")
+## load the trials
+load("--------.RData")
 
 library(dplyr)
 library(ggplot2)
@@ -83,6 +84,6 @@ info_summary <- info %>%
                           r_mu5_mu4=mean(r_mu5_mu4))
 
 ## save info
-save(info_summary,file="5_25_info_summary.RData")
-load("5_25_info_summary.RData")
+save(info_summary,file="------.RData")
+load("------.RData")
 

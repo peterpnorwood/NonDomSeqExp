@@ -4,11 +4,13 @@
 ## Purpose: analyze trial information for anova/mab scenario ------- ##
 ## ----------------------------------------------------------------- ##
 
-setwd("~/Research/Non_Dominated/anova_mab")
-load("5_25_trials.RData")
-load("5_25_rand_probs.RData")
-load("5_25_param_ests.RData")
-load("5_25_std_errors.RData")
+setwd("-------")
+
+## load the information
+load("-------.RData")
+load("-------.RData")
+load("-------.RData")
+load("-------.RData")
 
 
 ## load pacakges
