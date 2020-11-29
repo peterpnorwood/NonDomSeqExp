@@ -1,10 +1,10 @@
 ## ----------------------------------------------------------------- ##
 ## sims.R ---------------------------------------------------------- ##
 ## Author(s): Peter Norwood, NCSU ---------------------------------- ##
-## Purpose: functions to rum sims ---------------------------------- ##
+## Purpose: run simulations for the anova/mab scenario ------------- ##
 ## ----------------------------------------------------------------- ##
 
-setwd("-----------------------------")
+setwd("-------------------------")
 source("general_functions.R")
 source("SR.R")
 source("RSR.R")
@@ -14,29 +14,39 @@ source("RTS.R")
 library(parallel)
 
 ## wrapper function
-sim <- function(burn_in,theta0,theta1,sigma,
-                batch_size=50,batches=10,
-                eps=0.1,clip=0.1){
+sim <- function(burn_in,
+                theta0,theta1,sigma,clip=0.1,
+                batch_type,
+                batch_size=NULL,batches=NULL,
+                batch_range=NULL,N_total=NULL){
   
   
   ## generate training set
   train_set <- gen_data(burn_in,theta0,theta1,sigma)
   
   SR_sim <- try(SR(train_set=train_set,
-                    theta0=theta0,theta1=theta1,sigma=sigma,
-                    batches=batches,batch_size=batch_size))
+                   theta0=theta0,theta1=theta1,sigma=sigma,
+                   batch_type=batch_type,
+                   batch_size=batch_size,batches=batches,
+                   batch_range=batch_range,N_total=N_total))
   
   RSR_sim <- try(RSR(train_set=train_set,
                      theta0=theta0,theta1=theta1,sigma=sigma,
-                     batches=batches,batch_size=batch_size))
+                     batch_type=batch_type,
+                     batch_size=batch_size,batches=batches,
+                     batch_range=batch_range,N_total=N_total))
   
   TS_sim <- try(TS(train_set=train_set,
-                   theta0=theta0,theta1=theta1,sigma=sigma,
-                   batches=batches,batch_size=batch_size,clip=clip))
+                   theta0=theta0,theta1=theta1,sigma=sigma,clip=clip,
+                   batch_type=batch_type,
+                   batch_size=batch_size,batches=batches,
+                   batch_range=batch_range,N_total=N_total))
   
   RTS_sim <- try(RTS(train_set=train_set,
-                     theta0=theta0,theta1=theta1,sigma=sigma,
-                     batches=batches,batch_size=batch_size,clip=clip))
+                     theta0=theta0,theta1=theta1,sigma=sigma,clip=clip,
+                     batch_type=batch_type,
+                     batch_size=batch_size,batches=batches,
+                     batch_range=batch_range,N_total=N_total))
   
   
   output <- try(list(SR=SR_sim,
@@ -48,17 +58,19 @@ sim <- function(burn_in,theta0,theta1,sigma,
 }
 
 ## another wrapper function
-run_sim <- function(burn_in,theta0,
-                    theta1,sigma,
-                    batch_size,batches,
-                    eps,clip,r){
+run_sim <- function(r,burn_in,
+                    theta0,theta1,sigma,clip=0.1,
+                    batch_type,
+                    batch_size=NULL,batches=NULL,
+                    batch_range=NULL,N_total=NULL){
   
   ## Simulate the trials
   sims <- mclapply(X=1:r, 
                    function(X){sim(burn_in=burn_in,
-                                   theta0=theta0,theta1=theta1,sigma=sigma,
+                                   theta0=theta0,theta1=theta1,sigma=sigma,clip=clip,
+                                   batch_type=batch_type,
                                    batch_size=batch_size,batches=batches,
-                                   eps=eps,clip=clip)},
+                                   batch_range=batch_range,N_total=N_total)},
                    mc.cores = 1)
   
   
@@ -127,8 +139,11 @@ run_sim <- function(burn_in,theta0,
     
   }
   
-  pvals$theta1=theta1
-  trials$theta1=theta1
+  ## add new columns
+  pvals$theta1 <- theta1
+  pvals$batch_type <- batch_type
+  trials$theta1 <- theta1
+  trials$batch_type <- batch_type
   
   return(list(pvals=pvals,
               trials=trials))

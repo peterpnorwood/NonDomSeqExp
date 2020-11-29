@@ -147,3 +147,35 @@ bols_pvalue <- function(trial){
   ## return_pval
   return(p_val)
 }
+
+## W_d_pvalue
+## Purpose from W-d-correlated estimator
+## param trial: trial data
+## return lst: list with diff, se, p-val
+# W_d_pvalue <- function(trial){
+#   
+#   ## design matrix
+#   X <- cbind(c(1-trial$A),trial$A)
+#   
+#   ## initial lambda
+#   lambda_0 <- 1
+#   
+#   ## little w
+#   w <- matrix(NA,nrow=2,ncol=nrow(trial))
+#   ## big W
+#   W <- matrix(NA,nrow=2,ncol=nrow(trial))
+#   for(i in 1:nrow(trial)){
+#     if(i==1){
+#       ## little
+#       w[,i] <- X[i,]/(lambda_0 + 1)
+#       ## big
+#       W[,i] <- w[,i]
+#     }else{
+#       ## little
+#       w[,i] <- (diag(c(1,1))- W[,(i-1)] %*% t(X[i,]))%*%X[i,]/(lambda_0+1)
+#       W[,i] <- W[,1:(i-1)] %*% w[,i] 
+#     }
+#   }
+#     
+#     
+# }
